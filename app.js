@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const flash = require('connect-flash')
 
 require('dotenv').config()
 
@@ -16,11 +17,11 @@ app.use(session({
     secure: false //only localhost test
   }
 }));
+app.use(flash())
 
 app.get('/', (req, res) => {
-  res.send('Hello World');
-  console.log(req.signedCookies);
-  console.log(req.cookies);
+  req.flash('message', 'welcome to my website!')
+  res.send('Hello World ' + req.flash('message'));
 })
 
 app.get('/setCookie', (req, res) => {
